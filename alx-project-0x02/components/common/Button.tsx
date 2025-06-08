@@ -5,8 +5,10 @@ const Button: React.FC<ButtonProps> = ({
   buttonLabel,
   buttonSize = "medium",
   buttonBackgroundColor = "blue",
+  shape = "rounded-md", // add shape with default
   action,
 }) => {
+  // size classes
   const sizeClass =
     buttonSize === "small"
       ? "py-1 px-3 text-sm"
@@ -14,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({
       ? "py-3 px-6 text-lg"
       : "py-2 px-4 text-base";
 
+  // color classes
   const colorClass = {
     red: "bg-red-500 hover:bg-red-600",
     blue: "bg-blue-500 hover:bg-blue-600",
@@ -24,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={action}
-      className={`${sizeClass} ${colorClass} text-white rounded-lg focus:outline-none`}
+      className={`${sizeClass} ${colorClass} text-white ${shape} focus:outline-none`}
     >
       {buttonLabel}
     </button>

@@ -51,4 +51,14 @@ export interface ButtonProps {
   buttonBackgroundColor?: 'red' | 'blue' | 'orange' | 'green';
   action?: () => void;
 }
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  authorId: number;
+  createdAt: string;
+}
+export interface ContentItem {
+  content: string;
+}
 
