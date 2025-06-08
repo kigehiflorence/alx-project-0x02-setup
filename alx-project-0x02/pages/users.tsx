@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/layout/Header";
-import UserCard from "../components/common/UserCard";
-import { UserProps } from "../interfaces";
+import Header from "@/components/layout/Header";
+import UserCard from "@/components/common/UserCard";
+import { UserProps } from "@/interfaces";
+import { GetStaticProps } from "next";
 
-const UsersPage: React.FC = () => {
+type StaticUser = {
+  id: number;
+  name: string;
+};
+
+type UsersPageProps = {
+  staticUsers: StaticUser[];
+};
+
+const UsersPage: React.FC<UsersPageProps> = ({ staticUsers }) => {
   const [users, setUsers] = useState<UserProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,10 +40,12 @@ const UsersPage: React.FC = () => {
       <Header />
       <main className="p-8">
         <h1 className="text-3xl font-bold mb-6">Users</h1>
+
         {loading && <p>Loading users...</p>}
         {error && <p className="text-red-600">Error: {error}</p>}
+
         {!loading && !error && (
-          <div>
+          <div className="space-y-4">
             {users.map((user) => (
               <UserCard
                 key={user.id}
@@ -45,9 +57,30 @@ const UsersPage: React.FC = () => {
             ))}
           </div>
         )}
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Static Users (from getStaticProps)</h2>
+        <ul className="list-disc pl-5">
+          {staticUsers.map((user) => (
+            <li key={user.id} className="text-lg mb-2">{user.name}</li>
+          ))}
+        </ul>
       </main>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const staticUsers: StaticUser[] = [
+    { id: 1, name: "Alice Johnson" },
+    { id: 2, name: "Bob Smith" },
+    { id: 3, name: "Charlie Davis" },
+  ];
+
+  return {
+    props: {
+      staticUsers,
+    },
+  };
 };
 
 export default UsersPage;

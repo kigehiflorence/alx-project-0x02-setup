@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/layout/Header";
-import PostCard from "../components/common/PostCard";
-import { PostProps } from "../interfaces";
+import Header from "@/components/layout/Header";
+import PostCard from "@/components/common/PostCard";
+import { PostProps } from "@/interfaces";
+import { GetStaticProps } from "next";
 
-const PostsPage: React.FC = () => {
+type StaticPost = {
+  id: number;
+  title: string;
+};
+
+type PostsPageProps = {
+  staticPosts: StaticPost[];
+};
+
+const PostsPage: React.FC<PostsPageProps> = ({ staticPosts }) => {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +47,7 @@ const PostsPage: React.FC = () => {
         {error && <p className="text-red-600">Error: {error}</p>}
 
         {!loading && !error && (
-          <div>
+          <div className="space-y-4">
             {posts.map((post) => (
               <PostCard
                 key={post.id}
@@ -49,9 +59,30 @@ const PostsPage: React.FC = () => {
             ))}
           </div>
         )}
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">Static Posts (from getStaticProps)</h2>
+        <ul className="list-disc pl-5">
+          {staticPosts.map((post) => (
+            <li key={post.id} className="text-lg mb-2">{post.title}</li>
+          ))}
+        </ul>
       </main>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const staticPosts: StaticPost[] = [
+    { id: 1, title: "Hello World" },
+    { id: 2, title: "Next.js is Awesome" },
+    { id: 3, title: "Static Site Generation Rocks" },
+  ];
+
+  return {
+    props: {
+      staticPosts,
+    },
+  };
 };
 
 export default PostsPage;

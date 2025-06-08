@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import Header from "../components/layout/Header";
-import Card from "../components/common/Card";
-import PostModal from "../components/common/PostModal";
+import Card from "@/components/common/Card";
+import PostModal from "@/components/common/PostModal";
+import Header from "@/components/layout/Header";
 
 const HomePage: React.FC = () => {
   const [posts, setPosts] = useState<{ title: string; content: string }[]>([]);
@@ -15,10 +15,12 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <Header />
       <Head>
         <title>Home Page</title>
       </Head>
+
+      <Header />
+
       <main className="flex flex-col min-h-screen items-center justify-center bg-green-100 p-8">
         <h1 className="text-4xl font-bold text-green-700 mb-6">
           Welcome to the Home Page 🏡
@@ -37,11 +39,28 @@ const HomePage: React.FC = () => {
           onAddPost={handleAddPost}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-          {/* Default static cards */}
-          <Card title="Card 1" content="This is the content of Card 1." />
-          <Card title="Card 2" content="This is the content of Card 2." />
-          <Card title="Card 3" content="This is the content of Card 3." />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+          {/* Static Cards with images */}
+          <Card
+            title="First Card"
+            description="This is a sample description for the first card."
+            imageUrl="https://source.unsplash.com/random/400x300"
+          />
+          <Card
+            title="Second Card"
+            description="Another description for the second card."
+            imageUrl="https://source.unsplash.com/random/401x301"
+          />
+          <Card
+            title="Third Card"
+            description="Yet another card description."
+            imageUrl="https://source.unsplash.com/random/402x302"
+          />
+
+          {/* Static text-only cards */}
+          <Card title="Card 4" content="This is the content of Card 4." />
+          <Card title="Card 5" content="This is the content of Card 5." />
+          <Card title="Card 6" content="This is the content of Card 6." />
 
           {/* Dynamically added posts */}
           {posts.map((post, index) => (
